@@ -12,7 +12,8 @@ public abstract class Persona {
 
     /* - - - - - - - Constructores - - - - - - - - - - -*/
     //constructor vacío
-    public Persona() {}
+    public Persona() {
+    }
 
     //constructor completo
     public Persona(int id, String dni, String nombre, String usuario, String contrasenia, boolean activo) {
@@ -26,7 +27,7 @@ public abstract class Persona {
 
     //constructor sin ID para altas, activo en true
     public Persona(String dni, String nombre, String usuario, String contrasenia) {
-        this(0,dni,nombre,usuario,contrasenia,true);
+        this(0, dni, nombre, usuario, contrasenia, true);
     }
     /* - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
@@ -100,7 +101,7 @@ public abstract class Persona {
 
     @Override
     public String toString() {
-        return "ID: " + id + ", DNI: "+ dni + ", nombre: " + nombre + ", usuario: " + usuario + ", rol: " + getRol() + ", activo: " + activo ;
+        return "ID: " + id + ", DNI: " + dni + ", nombre: " + nombre + ", usuario: " + usuario + ", rol: " + getRol() + ", activo: " + activo;
     }
 
     public abstract String getRol();
