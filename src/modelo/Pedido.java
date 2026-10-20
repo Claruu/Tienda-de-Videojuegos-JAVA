@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class Pedido {
     private int id;
     private int idCompra;
-    //private Compra compra; /*Necesito Compra para poder hacer esto, TODO*/
+    private Compra compra;
     private boolean preparado;
     private LocalDateTime fechaPedido;
     private Empleado empleadoPreparador;
@@ -15,19 +15,19 @@ public class Pedido {
     public Pedido() {
     }
 
-    public Pedido(int id, int idCompra, boolean preparado, LocalDateTime fechaPedido, Empleado empleadoPreparador)/*sumar Compra en el constructor cuando esté subida la entidad (TODO)*/ {
+    public Pedido(int id, int idCompra, Compra compra, boolean preparado, LocalDateTime fechaPedido, Empleado empleadoPreparador)/*sumar Compra en el constructor cuando esté subida la entidad (TODO)*/ {
         this.id = id;
         this.idCompra = idCompra;
-        //  this.compra = compra;
+        this.compra = compra;
         this.preparado = preparado;
         this.fechaPedido = fechaPedido;
         this.empleadoPreparador = empleadoPreparador;
     }
 
-    public Pedido(int id, int idCompra, LocalDateTime fechaPedido) {
+    public Pedido(int id, int idCompra, Compra compra, LocalDateTime fechaPedido) {
         this.id = id;
         this.idCompra = idCompra;
-        // sumar compra cuando este  this.compra = compra;
+        this.compra = compra;
         this.preparado = false;
         this.fechaPedido = fechaPedido;
         this.empleadoPreparador = null;
@@ -51,14 +51,14 @@ public class Pedido {
         this.idCompra = idCompra;
     }
 
-    /*  public Compra getCompra() {
-          return compra;
-      }
+    public Compra getCompra() {
+        return compra;
+    }
 
-      public void setCompra(Compra compra) {
-          this.compra = compra;
-      }
-  */
+    public void setCompra(Compra compra) {
+        this.compra = compra;
+    }
+
     public boolean isPreparado() {
         return preparado;
     }
