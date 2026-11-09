@@ -74,4 +74,29 @@ public abstract class Producto {
     }
 
 
+    // metodos
+    public int hayStock(){
+        int stock1=stock;
+        if (stock1>0){
+            return stock1;
+        }else {
+            return 0;
+        }
+
+    }
+
+    public int descontarStock(int cantidad){
+        return getStock() - cantidad;
+    }
+
+    @Override
+    public String toString() {
+        return "Producto{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", stock=" + stock +
+                ", precio=" + precio +
+                ", activo=" + activo +
+                '}';
+    }
 }
