@@ -1,5 +1,7 @@
 package modelo;
 
+import excepciones.OperacionNoPermitidaException;
+
 import java.time.LocalDateTime;
 
 public class Pedido {
@@ -84,5 +86,32 @@ public class Pedido {
     }
     /* - - - - - - Getters y Setters - - - - - - - - -*/
 
+    public void marcarPreparado(Empleado e) throws OperacionNoPermitidaException {
+        if (this.preparado) {
+            throw new OperacionNoPermitidaException("El pedido ya fue preparado.");
+        }
+        this.preparado = true;
+        this.empleadoPreparador = e;
+    }
 
+    public String getEstadoTexto() {
+        if (this.preparado) {
+            return "PREPARADO";
+        } else {
+            return "PENDIENTE";
+        }
+    }
+
+    public String toString() {
+        String info = "Pedido #" + id +
+                " | Compra # " + idCompra +
+                " | Fecha Pedido #" + fechaPedido +
+                " | Estado: " + getEstadoTexto();
+
+        if (preparado && empleadoPreparador != null) {
+            info += " | Preparado por: " + empleadoPreparador.getNombre() + " (Legajo: " + empleadoPreparador.getLegajo() + ")";
+        }
+
+        return info;
+    }
 }
