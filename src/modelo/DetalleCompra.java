@@ -52,7 +52,22 @@ public class DetalleCompra {
         this.precioUnitario = precioUnitario;
     }
 
+
     public double CalcularSubtotal(){
 
+        double total;
+        total = precioUnitario * cantidad;
+        return total;
+
+    }
+
+    @Override
+    public String toString() {
+        return "DetalleCompra{" +
+                "idCompra=" + idCompra +
+                ", producto=" + producto +
+                ", cantidad=" + cantidad +
+                ", precioUnitario=" + precioUnitario +
+                '}';
     }
 }

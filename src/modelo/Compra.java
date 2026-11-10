@@ -1,9 +1,15 @@
 package modelo;
-
-import interfaces.IPagable;
-
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import interfaces.IPagable;
+import excepciones.OperacionNoPermitidaException;
+import excepciones.SaldoInsuficienteException;
+import excepciones.StockInsuficienteException;
+
+
+
 
 public class Compra implements IPagable {
 
@@ -23,7 +29,7 @@ public class Compra implements IPagable {
     public Compra(int id, Cliente cliente, List<DetalleCompra> detalles, LocalDateTime fecha, double total) {
         this.id = id;
         this.cliente = cliente;
-        this.detalles = detalles;
+        this.detalles = new ArrayList<>();
         this.fecha = fecha;
         this.total = total;
     }
@@ -86,13 +92,68 @@ public class Compra implements IPagable {
 
     @Override
     public double calcularTotal() {
-        return 0;
+        double resultado = 0;
+
+        for (DetalleCompra detalle : detalles) {
+            resultado = resultado + detalle.CalcularSubtotal();
+        }
+        return resultado;
     }
 
     @Override
-    public void confirmarPago() {
+    public void confirmarPago() throws SaldoInsuficienteException,
+            StockInsuficienteException,
+            OperacionNoPermitidaException {
 
+        if (detalles.isEmpty()) {
+            throw new OperacionNoPermitidaException(
+                    "El carrito de compras se encuentra vacio"
+            );
+        }
+
+        for (DetalleCompra detalle : detalles) {
+
+            Producto producto = detalle.getProducto();
+
+            if (producto == null || !producto.isActivo()) {
+                throw new OperacionNoPermitidaException(
+                        "Uno de los productos ya no está disponible.");
+            }
+
+            if (producto.getStock() > detalle.getCantidad()) {
+                throw new StockInsuficienteException(
+                        "En este momento no hay stock suficiente del producto " + producto.getNombre()+", gracias por su comprensión.");
+            }
+        }
+
+        total = calcularTotal();
+
+        if (cliente.getSaldo() < total) {
+            throw new SaldoInsuficienteException(
+                    "El saldo actual es insuficiente para realizar esta compra");
+        }
+    }
+
+    public String generarComprobante() {
+
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        String comprobante = "========== TIENDA DE VIDEOJUEGOS ==========\n"+
+                "Compra N°: " + id + "\n"+
+                "Cliente: " + cliente.getNombre() + "\n"+
+                "Fecha: " + fecha.format(formato) + "\n"
+                +"-------------------------------------------\n";
+
+        for (DetalleCompra detalle : detalles) {
+            comprobante += detalle.toString() + "\n";
+        }
+
+        comprobante += "-------------------------------------------\n"+
+                "TOTAL: $" + total + "\n" +
+                "Gracias por su compra.";
+        return comprobante;
+    }
 
 
     }
-}
+
