@@ -15,12 +15,12 @@ public class Cliente extends Persona {
     private Set<Producto> favoritos = new HashSet<>();
 
     /* - - - - - - - Constructores - - - - - - - - - - -*/
-    public Cliente(int id, String dni, String nombre, String usuario, String contrasenia, boolean activo, double saldo) {
+    public Cliente(int id, String dni, String nombre, String usuario, String contrasenia, boolean activo, double saldo) throws DatoInvalidoException {
         super(id, dni, nombre, usuario, contrasenia, activo);
         this.saldo = saldo;
     }
 
-    public Cliente(String dni, String nombre, String usuario, String contrasenia) {
+    public Cliente(String dni, String nombre, String usuario, String contrasenia) throws DatoInvalidoException {
         super(dni, nombre, usuario, contrasenia);
         this.saldo = 0.0;
     }
