@@ -1,6 +1,7 @@
 package modelo;
 
 public class DetalleCompra {
+    private int id;
     private int idCompra;
     private Producto producto;
     private int cantidad;
@@ -12,6 +13,14 @@ public class DetalleCompra {
     }
 
     public DetalleCompra(int idCompra, Producto producto, int cantidad, double precioUnitario) {
+        this.idCompra = idCompra;
+        this.producto = producto;
+        this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
+    }
+
+    public DetalleCompra(int id, int idCompra, Producto producto, int cantidad, double precioUnitario) {
+        this.id = id;
         this.idCompra = idCompra;
         this.producto = producto;
         this.cantidad = cantidad;
@@ -52,8 +61,15 @@ public class DetalleCompra {
         this.precioUnitario = precioUnitario;
     }
 
+    public int getId() {
+        return id;
+    }
 
-    public double CalcularSubtotal(){
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double calcularSubtotal() {
 
         double total;
         total = precioUnitario * cantidad;
