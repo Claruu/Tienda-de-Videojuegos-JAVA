@@ -1,14 +1,14 @@
 package modelo;
+
+import excepciones.OperacionNoPermitidaException;
+import excepciones.SaldoInsuficienteException;
+import excepciones.StockInsuficienteException;
+import interfaces.IPagable;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import interfaces.IPagable;
-import excepciones.OperacionNoPermitidaException;
-import excepciones.SaldoInsuficienteException;
-import excepciones.StockInsuficienteException;
-
-
 
 
 public class Compra implements IPagable {
@@ -16,9 +16,10 @@ public class Compra implements IPagable {
     /*  ATRIBUTOS */
     private int id;
     private Cliente cliente;
-    private List<DetalleCompra> detalles;
+    private List<DetalleCompra> detalles = new ArrayList<>();
     private LocalDateTime fecha;
     private double total;
+
 
     // CONSTRUCTORES
 
@@ -29,7 +30,7 @@ public class Compra implements IPagable {
     public Compra(int id, Cliente cliente, List<DetalleCompra> detalles, LocalDateTime fecha, double total) {
         this.id = id;
         this.cliente = cliente;
-        this.detalles = new ArrayList<>();
+        this.detalles = detalles;
         this.fecha = fecha;
         this.total = total;
     }
@@ -77,7 +78,9 @@ public class Compra implements IPagable {
         this.total = total;
     }
 
-    /** METODO TO STRING**/
+    /**
+     * METODO TO STRING
+     **/
     @Override
     public String toString() {
         return "Compra:" +
@@ -88,14 +91,16 @@ public class Compra implements IPagable {
                 ", total=" + total;
     }
 
-    /** METODO DE LA INTERFACE**/
+    /**
+     * METODO DE LA INTERFACE
+     **/
 
     @Override
     public double calcularTotal() {
         double resultado = 0;
 
         for (DetalleCompra detalle : detalles) {
-            resultado = resultado + detalle.CalcularSubtotal();
+            resultado = resultado + detalle.calcularSubtotal();
         }
         return resultado;
     }
@@ -120,9 +125,9 @@ public class Compra implements IPagable {
                         "Uno de los productos ya no está disponible.");
             }
 
-            if (producto.getStock() > detalle.getCantidad()) {
+            if (producto.getStock() < detalle.getCantidad()) {
                 throw new StockInsuficienteException(
-                        "En este momento no hay stock suficiente del producto " + producto.getNombre()+", gracias por su comprensión.");
+                        "En este momento no hay stock suficiente del producto " + producto.getNombre() + ", gracias por su comprensión.");
             }
         }
 
@@ -138,22 +143,22 @@ public class Compra implements IPagable {
 
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-        String comprobante = "========== TIENDA DE VIDEOJUEGOS ==========\n"+
-                "Compra N°: " + id + "\n"+
-                "Cliente: " + cliente.getNombre() + "\n"+
+        String comprobante = "========== TIENDA DE VIDEOJUEGOS ==========\n" +
+                "Compra N°: " + id + "\n" +
+                "Cliente: " + cliente.getNombre() + "\n" +
                 "Fecha: " + fecha.format(formato) + "\n"
-                +"-------------------------------------------\n";
+                + "-------------------------------------------\n";
 
         for (DetalleCompra detalle : detalles) {
             comprobante += detalle.toString() + "\n";
         }
 
-        comprobante += "-------------------------------------------\n"+
+        comprobante += "-------------------------------------------\n" +
                 "TOTAL: $" + total + "\n" +
                 "Gracias por su compra.";
         return comprobante;
     }
 
 
-    }
+}
 
