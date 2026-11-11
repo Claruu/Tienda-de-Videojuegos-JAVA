@@ -17,7 +17,7 @@ public class Pedido {
     public Pedido() {
     }
 
-    public Pedido(int id, int idCompra, Compra compra, boolean preparado, LocalDateTime fechaPedido, Empleado empleadoPreparador)/*sumar Compra en el constructor cuando esté subida la entidad (TODO)*/ {
+    public Pedido(int id, int idCompra, Compra compra, boolean preparado, LocalDateTime fechaPedido, Empleado empleadoPreparador) {
         this.id = id;
         this.idCompra = idCompra;
         this.compra = compra;
@@ -33,6 +33,11 @@ public class Pedido {
         this.preparado = false;
         this.fechaPedido = fechaPedido;
         this.empleadoPreparador = null;
+    }
+
+    // Constructor para pedidos antes de guardarse en la BDD
+    public Pedido(int idCompra, Compra compra, LocalDateTime fechaPedido) {
+        this(0, idCompra, compra, false, fechaPedido, null);
     }
     /* - - - - - - - Constructores - - - - - - - - - - -*/
 
@@ -88,7 +93,7 @@ public class Pedido {
 
     public void marcarPreparado(Empleado e) throws OperacionNoPermitidaException {
         if (this.preparado) {
-            throw new OperacionNoPermitidaException("El pedido ya fue preparado.");
+            throw new OperacionNoPermitidaException("El pedido ya fue preparado");
         }
         this.preparado = true;
         this.empleadoPreparador = e;

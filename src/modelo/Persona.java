@@ -1,5 +1,7 @@
 package modelo;
 
+import excepciones.DatoInvalidoException;
+
 import java.util.Objects;
 
 public abstract class Persona {
@@ -16,17 +18,17 @@ public abstract class Persona {
     }
 
     //constructor completo
-    public Persona(int id, String dni, String nombre, String usuario, String contrasenia, boolean activo) {
+    public Persona(int id, String dni, String nombre, String usuario, String contrasenia, boolean activo) throws DatoInvalidoException {
         this.id = id;
-        this.dni = dni;
-        this.nombre = nombre;
-        this.usuario = usuario;
-        this.contrasenia = contrasenia;
+        setDni(dni);
+        setNombre(nombre);
+        setUsuario(usuario);
+        setContrasenia(contrasenia);
         this.activo = activo;
     }
 
     //constructor sin ID para altas, activo en true
-    public Persona(String dni, String nombre, String usuario, String contrasenia) {
+    public Persona(String dni, String nombre, String usuario, String contrasenia) throws DatoInvalidoException {
         this(0, dni, nombre, usuario, contrasenia, true);
     }
     /* - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -45,7 +47,10 @@ public abstract class Persona {
         return dni;
     }
 
-    public void setDni(String dni) {
+    public void setDni(String dni) throws DatoInvalidoException {
+        if (dni == null || dni.trim().isEmpty()) {
+            throw new DatoInvalidoException("El DNI no puede estar vacio");
+        }
         this.dni = dni;
     }
 
@@ -53,7 +58,10 @@ public abstract class Persona {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    public void setNombre(String nombre) throws DatoInvalidoException {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new DatoInvalidoException("El nombre no puede estar vacío");
+        }
         this.nombre = nombre;
     }
 
@@ -61,7 +69,10 @@ public abstract class Persona {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
+    public void setUsuario(String usuario) throws DatoInvalidoException {
+        if (usuario == null || usuario.trim().isEmpty()) {
+            throw new DatoInvalidoException("El usuario no puede estar vacío");
+        }
         this.usuario = usuario;
     }
 
@@ -69,7 +80,10 @@ public abstract class Persona {
         return contrasenia;
     }
 
-    public void setContrasenia(String contrasenia) {
+    public void setContrasenia(String contrasenia) throws DatoInvalidoException {
+        if (contrasenia == null || contrasenia.trim().isEmpty()) {
+            throw new DatoInvalidoException("La contraseña no puede estar vacía");
+        }
         this.contrasenia = contrasenia;
     }
 
