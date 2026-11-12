@@ -1,5 +1,8 @@
 package modelo;
 
+import excepciones.DatoInvalidoException;
+import excepciones.StockInsuficienteException;
+
 import java.util.Objects;
 
 public abstract class Producto {
@@ -85,9 +88,19 @@ public abstract class Producto {
 
     }
 
-    public int descontarStock(int cantidad){
-        return getStock() - cantidad;
+    public void descontarStock(int cantidad)throws DatoInvalidoException, StockInsuficienteException {
+        if (cantidad<=0){
+            throw new DatoInvalidoException("La cantidad a descontar debe ser menor a 0");
+        }
+
+        if(cantidad>stock){
+            throw new StockInsuficienteException("No hay stock suficiente ");
+        }
+
+        stock-=cantidad;
     }
+
+    public abstract String getDetalleEspecifico();
 
     @Override
     public String toString() {
