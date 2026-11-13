@@ -115,7 +115,7 @@ public abstract class Persona {
 
     @Override
     public String toString() {
-        return "ID: " + id + ", DNI: " + dni + ", nombre: " + nombre + ", usuario: " + usuario + ", rol: " + getRol() + ", activo: " + activo;
+        return "ID: " + id + ", DNI: " + dni + ", nombre: " + nombre + ", usuario: " + usuario + ", rol: " + getRol() + ", activo: " + (activo ? "Sí" : "No");
     }
 
     public abstract String getRol();
