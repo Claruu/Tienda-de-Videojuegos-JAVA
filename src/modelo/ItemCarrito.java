@@ -1,5 +1,7 @@
 package modelo;
 
+import excepciones.DatoInvalidoException;
+
 public class ItemCarrito {
     private Producto producto;
     private int cantidad;
@@ -35,9 +37,18 @@ public class ItemCarrito {
     }
 
     //extra seria la cantidad que le queremos sumar ya existentes
-    public int sumarCantidades(int extra){
+    public int sumarCantidades(int extra)throws DatoInvalidoException {
+        if (extra <=0){
+            throw new DatoInvalidoException("La cantidad a sumar debe ser mayor a 0");
+        }
         return getCantidad()+extra;
     }
 
-
+    @Override
+    public String toString() {
+        return "ItemCarrito{" +
+                "producto=" + producto +
+                ", cantidad=" + cantidad +
+                '}';
+    }
 }
