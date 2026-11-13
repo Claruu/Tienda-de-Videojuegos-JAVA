@@ -1,7 +1,20 @@
--- 1 administrador
+-- 15 administradores
 INSERT INTO usuarios (id, dni, nombre, usuario, contrasenia, rol, legajo, saldo, activo)
 VALUES (1, '10000001', 'Admin Principal', 'admin', 'admin123', 'ADMIN', NULL, 0.0, TRUE),
-
+       (2, '10000002', 'Valeria Gomez', 'vgomez', 'valeria123', 'ADMIN', NULL, 0.0, TRUE),
+       (3, '10000003', 'Carlos Ruiz', 'cruiz', 'carlos123', 'ADMIN', NULL, 0.0, TRUE),
+       (4, '10000004', 'Mariana Lopez', 'mlopez', 'mariana123', 'ADMIN', NULL, 0.0, TRUE),
+       (5, '10000005', 'Santiago Fernandez', 'sfernandez', 'santiago123', 'ADMIN', NULL, 0.0, TRUE),
+       (6, '10000006', 'Paula Benitez', 'pbenitez', 'paula123', 'ADMIN', NULL, 0.0, TRUE),
+       (7, '10000007', 'Federico Alvarez', 'falvarez', 'federico123', 'ADMIN', NULL, 0.0, TRUE),
+       (8, '10000008', 'Lucia Suarez', 'lsuarez', 'lucia123', 'ADMIN', NULL, 0.0, TRUE),
+       (9, '10000009', 'Esteban Morales', 'emorales', 'esteban123', 'ADMIN', NULL, 0.0, TRUE),
+       (10, '10000010', 'Daniela Romero', 'dromero', 'daniela123', 'ADMIN', NULL, 0.0, TRUE),
+       (11, '10000011', 'Gonzalo Herrera', 'gherrera', 'gonzalo123', 'ADMIN', NULL, 0.0, TRUE),
+       (12, '10000012', 'Florencia Castro', 'fcastro', 'florencia123', 'ADMIN', NULL, 0.0, TRUE),
+       (13, '10000013', 'Ignacio Molina', 'imolina', 'ignacio123', 'ADMIN', NULL, 0.0, TRUE),
+       (14, '10000014', 'Camila Ortiz', 'cortiz', 'camila123', 'ADMIN', NULL, 0.0, TRUE),
+       (15, '10000015', 'Nicolas Medina', 'nmedina', 'nicolas123', 'ADMIN', NULL, 0.0, TRUE);
 
 -- 15 empleados
 INSERT INTO usuarios (id, dni, nombre, usuario, contrasenia, rol, legajo, saldo, activo)
