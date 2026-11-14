@@ -13,17 +13,23 @@ import java.util.List;
 
 public class PedidoDAO {
     private final UsuarioDAO usuarioDAO;
-    //TODO cuando esté hecho CompraDAO agregaré compraDAO
+    private final CompraDAO compraDAO;
 
     public PedidoDAO() {
         this.usuarioDAO = new UsuarioDAO();
+        this.compraDAO = new CompraDAO();
     }
 
     public PedidoDAO(UsuarioDAO usuarioDAO) {
         this.usuarioDAO = usuarioDAO;
+        this.compraDAO = new CompraDAO();
     }
 
-    //TODO constructor PedidoDAO
+    public PedidoDAO(UsuarioDAO usuarioDAO, CompraDAO compraDAO) {
+        this.usuarioDAO = usuarioDAO;
+        this.compraDAO = compraDAO;
+    }
+
 
     public void insertarPedido(Connection conn, Pedido pedido) throws SQLException {
         String sql = "INSERT INTO pedidos (id_compra, preparado, fecha_pedido, id_empleado_preparador) "
@@ -93,9 +99,108 @@ public class PedidoDAO {
                 empleadoPreparador = (Empleado) persona;
             }
         }
-        // TODO: necesito compraDAO
-        Compra compra = null;
+
+        Compra compra = compraDAO.obtenerPorId(idCompra);
         return new Pedido(id, idCompra, compra, preparado, fechaPedido, empleadoPreparador);
     }
+
+    public List<Pedido> listarPedidosPendientes() throws SQLException {
+        List<Pedido> lista = new ArrayList<>();
+        String sql = "SELECT * FROM pedidos WHERE preparado = FALSE";
+
+        try (Connection con = ConexionDB.conectar();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                lista.add(mapearPedido(rs));
+            }
+        }
+
+        return lista;
+    }
+
+
+    public List<Pedido> listarPedidosPreparados() throws SQLException {
+        List<Pedido> lista = new ArrayList<>();
+        String sql = "SELECT * FROM pedidos WHERE preparado = TRUE";
+
+        try (Connection con = ConexionDB.conectar();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(mapearPedido(rs));
+            }
+        }
+
+        return lista;
+    }
+
+    public List<Pedido> listarTodosLosPedidos() throws SQLException {
+        List<Pedido> lista = new ArrayList<>();
+        String sql = "SELECT * FROM pedidos";
+
+        try (Connection con = ConexionDB.conectar();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(mapearPedido(rs));
+            }
+        }
+
+        return lista;
+    }
+
+    public List<Pedido> listarPedidosPreparadosPorEmpleado(int idEmpleado) throws SQLException {
+        List<Pedido> lista = new ArrayList<>();
+        String sql = "SELECT * FROM pedidos WHERE preparado = TRUE AND id_empleado_preparador = ?";
+
+        try (Connection con = ConexionDB.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idEmpleado);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearPedido(rs));
+                }
+            }
+        }
+        return lista;
+    }
+
+
+    public List<Pedido> listarPedidosPorCliente(int idCliente) throws SQLException {
+        List<Pedido> lista = new ArrayList<>();
+        String sql = "SELECT p.* FROM pedidos p JOIN compras c ON p.id_compra = c.id WHERE c.id_cliente = ?";
+
+        try (Connection con = ConexionDB.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idCliente);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearPedido(rs));
+                }
+            }
+        }
+        return lista;
+    }
+
+    public boolean marcarComoPreparado(int idPedido, int idEmpleado) throws SQLException {
+        String sql = "UPDATE pedidos SET preparado = TRUE, id_empleado_preparador = ? WHERE id = ? AND preparado = FALSE";
+
+        try (Connection con = ConexionDB.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idEmpleado);
+            ps.setInt(2, idPedido);
+
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+
 }
+
+
 
