@@ -10,9 +10,7 @@ una tienda de videojuegos y consolas: catálogo, favoritos, carrito, ventas, sal
 - **Agustín Vallejos:** ventas, pagos, transacción JDBC e historial de compras.
 
 ## Cómo funciona
-
 ### Cliente
-
 - Se loguea o se registra.
 - Ve el catálogo con el stock disponible.
 - Busca por ID o por nombre, y filtra juegos o consolas.
@@ -23,14 +21,12 @@ una tienda de videojuegos y consolas: catálogo, favoritos, carrito, ventas, sal
 - Ve su historial de compras y el estado de sus pedidos.
 
 ### Empleado
-
 - Ve el catálogo y el stock.
 - Ve los pedidos pendientes con el detalle de productos y cantidades.
 - Marca un pedido como preparado. Queda registrado qué empleado lo preparó.
 - Ve el historial general de pedidos preparados y los que preparó él mismo.
 
 ### Admin
-
 - Hace el ABMCL de usuarios y de productos.
 - Ve el catálogo completo, el historial general de ventas y el listado general de pedidos.
 
